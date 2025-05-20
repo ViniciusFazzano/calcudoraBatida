@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Homeopática</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="logo-container">
+            <img src="image-removebg-preview.svg" alt="Logo">
+        </div>
+        <h1> Calculadora Homeopática</h1>
+        <div class="theme-toggle">
+            <button id="themeButton">🌙</button>
+        </div>
+        <form id="calcForm">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="qnt_saco">Quantidade de Sacos:</label>
+                    <input type="number" id="qnt_saco" value="250" required step="0.01">
+                </div>
+
+                <div class="form-group">
+                    <label for="kilo_batida">Quilo por Batida (kg):</label>
+                    <input type="number" id="kilo_batida" value="1500" required step="0.01">
+                </div>
+
+                <div class="form-group">
+                    <label for="kilo_saco">Quilo por Saco (kg):</label>
+                    <input type="number" id="kilo_saco" value="30" required step="0.01">
+                </div>
+
+                <div class="form-group">
+                    <label for="qnt_cabeca">Quantidade de Cabeças:</label>
+                    <input type="number" id="qnt_cabeca" value="100" required step="0.01">
+                </div>
+
+                <div class="form-group">
+                    <label for="consumo_cabeca">Consumo por Cabeça (g):</label>
+                    <input type="number" id="consumo_cabeca" value="100" required step="0.01">
+                </div>
+
+                <div class="form-group">
+                    <label for="grama_homeopatia_cabeca">Gramas de Homeopatia por Cabeça (g):</label>
+                    <input type="number" id="grama_homeopatia_cabeca" value="5" required step="0.01">
+                </div>
+
+                <div class="form-group">
+                    <label for="gramas_homeopatia_caixa">Gramas de Homeopatia por Caixa (g):</label>
+                    <input type="number" id="gramas_homeopatia_caixa" value="15000" required step="0.01">
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button type="submit" class="calculate-btn">Calcular</button>
+                <button type="button" class="print-btn" id="pdfButton">Gerar PDF</button>
+            </div>
+        </form>
+
+        <div class="resultados" id="resultados">
+            <h2>🐮 Resultados</h2>
+            <div id="resultItems"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

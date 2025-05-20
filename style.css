@@ -1,0 +1,215 @@
+:root {
+    /* Cores do tema claro */
+    --primary-color: #ffffff;
+    --secondary-color: #3498db;
+    --accent-color: #237a47;
+    --background-gradient: linear-gradient(360deg, rgb(192, 207, 158) 0%, #ffffff 100%);
+    --text-color: #000000;
+    --container-bg: white;
+    --input-bg: white;
+    --input-border: #000000;
+    --color-svg: invert(0);
+
+    /* Novas cores para tema escuro */
+    --dark-primary: #799236;
+    --dark-secondary: #0c1120;
+    --dark-accent: #005021;
+    --dark-text: #799236;
+    --dark-input-bg: #12121a;
+    --dark-input-border: #108023;
+    --dark-color-svg: invert(1);
+}
+
+[data-theme="dark"] {
+    --primary-color: var(--dark-primary);
+    --secondary-color: var(--dark-secondary);
+    --accent-color: var(--dark-accent);
+    --background-gradient: linear-gradient(360deg, #0f0c29 0%, #000000 100%);
+    --text-color: var(--dark-text);
+    --container-bg: var(--dark-secondary);
+    --input-bg: var(--dark-input-bg);
+    --input-border: var(--dark-input-border);
+    --color-svg: var(--dark-color-svg);
+}
+
+body {
+    color: var(--text-color);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+    background: var(--background-gradient);
+}
+
+.container {
+    background: var(--container-bg);
+
+    max-width: 1000px;
+    margin: 50px auto;
+    background: #166336;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    color: var(--primary-color);
+    margin-bottom: 30px;
+    font-size: 2.5em;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 40px;
+    margin-bottom: 40px;
+}
+
+.form-group {
+    position: relative;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+input {
+    background-color: var(--input-bg);
+    border-color: var(--input-border);
+    color: var(--text-color);
+    width: 100%;
+    padding: 12px;
+    border: 2px solid var(--input-border);
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+input:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 8px rgba(52, 152, 219, 0.2);
+}
+
+.button-group {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+button {
+    padding: 15px 30px;
+    border: 2px solid var(--input-border);
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    flex: 1;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+.calculate-btn {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+.print-btn {
+    background-color: var(--secondary-color);
+    color: white;
+    display: none;
+}
+
+.resultados {
+    margin-top: 30px;
+    padding: 25px;
+    background: var(--background-gradient);
+    border-radius: 10px;
+    border: 2px solid var(--input-border);
+    display: none;
+}
+
+.result-item {
+    background: var(--input-bg);
+
+    padding: 15px;
+    margin: 10px 0;
+    background: var(--container-bg);
+    border-left: 4px solid var(--secondary-color);
+    border: 2px solid var(--input-border);
+    border-radius: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.result-value {
+    color: var(--primary-color);
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 20px;
+    }
+
+    .button-group {
+        flex-direction: column;
+    }
+}
+
+.theme-toggle {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+#themeButton {
+    background: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    font-size: 1.2em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+#themeButton:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px var(--accent-color);
+}
+
+.container img {
+    display: block;
+    /* Transforma a imagem em elemento bloco */
+    max-width: 400px;
+    /* Define largura máxima */
+    width: 100%;
+    /* Mantém responsivo */
+    height: auto;
+    /* Mantém proporção */
+    margin: 0 auto;
+    /* Centraliza horizontalmente */
+    padding: 0px 0;
+    /* Espaçamento opcional */
+}
+
+img {
+    filter: var(--color-svg);
+}

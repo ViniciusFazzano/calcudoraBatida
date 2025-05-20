@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Homeopática</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .resultados {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #e9f7ef;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .result-item {
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: white;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Calculadora Homeopática</h1>
+        
+        <form id="calcForm">
+            <div class="form-group">
+                <label for="qnt_saco">Quantidade de Sacos:</label>
+                <input type="number" id="qnt_saco" name="qnt_saco" required step="0.01">
+            </div>
+
+            <div class="form-group">
+                <label for="kilo_batida">Quilo por Batida (kg):</label>
+                <input type="number" id="kilo_batida" name="kilo_batida" required step="0.01">
+            </div>
+
+            <div class="form-group">
+                <label for="kilo_saco">Quilo por Saco (kg):</label>
+                <input type="number" id="kilo_saco" name="kilo_saco" required step="0.01">
+            </div>
+
+            <div class="form-group">
+                <label for="qnt_cabeca">Quantidade de Cabeças:</label>
+                <input type="number" id="qnt_cabeca" name="qnt_cabeca" required step="0.01">
+            </div>
+
+            <div class="form-group">
+                <label for="consumo_cabeca">Consumo por Cabeça (g):</label>
+                <input type="number" id="consumo_cabeca" name="consumo_cabeca" required step="0.01">
+            </div>
+
+            <div class="form-group">
+                <label for="grama_homeopatia_cabeca">Gramas de Homeopatia por Cabeça (g):</label>
+                <input type="number" id="grama_homeopatia_cabeca" name="grama_homeopatia_cabeca" required step="0.01">
+            </div>
+
+            <div class="form-group">
+                <label for="gramas_homeopatia_caixa">Gramas de Homeopatia por Caixa (g):</label>
+                <input type="number" id="gramas_homeopatia_caixa" name="gramas_homeopatia_caixa" required step="0.01">
+            </div>
+
+            <button type="submit">Calcular</button>
+        </form>
+
+        <div class="resultados" id="resultados">
+            <h2>Resultados</h2>
+            <div id="resultItems"></div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('calcForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Coletar valores do formulário
+            const inputs = {
+                qntSaco: parseFloat(document.getElementById('qnt_saco').value),
+                kiloBatida: parseFloat(document.getElementById('kilo_batida').value),
+                kiloSaco: parseFloat(document.getElementById('kilo_saco').value),
+                qntCabeca: parseFloat(document.getElementById('qnt_cabeca').value),
+                consumoCabeca: parseFloat(document.getElementById('consumo_cabeca').value),
+                gramaHomeopatiaCabeca: parseFloat(document.getElementById('grama_homeopatia_cabeca').value),
+                gramasHomeopatiaCaixa: parseFloat(document.getElementById('gramas_homeopatia_caixa').value)
+            };
+
+            // Validar entradas
+            if (Object.values(inputs).some(value => isNaN(value) || value <= 0)) {
+                alert('Todos os campos devem ser números positivos!');
+                return;
+            }
+
+            try {
+                // Realizar cálculos
+                const resultados = calcularHomeopatia(inputs);
+
+                // Exibir resultados
+                document.getElementById('resultados').style.display = 'block';
+                displayResults(resultados);
+
+            } catch (error) {
+                alert('Erro no cálculo: ' + error.message);
+            }
+        });
+
+        function calcularHomeopatia({
+            qntSaco,
+            kiloBatida,
+            kiloSaco,
+            qntCabeca,
+            consumoCabeca,
+            gramaHomeopatiaCabeca,
+            gramasHomeopatiaCaixa
+        }) {
+            // Cálculos principais
+            const pesoTotal = qntSaco * kiloSaco;
+            
+            if (kiloBatida === 0) throw new Error('Kilo por batida não pode ser zero');
+            const qntBatida = Math.floor(pesoTotal / kiloBatida);
+            
+            const consumoCabecaKilo = consumoCabeca / 1000;
+            
+            if (consumoCabecaKilo === 0) throw new Error('Consumo por cabeça não pode ser zero');
+            const cabecaSaco = kiloSaco / consumoCabecaKilo;
+            
+            const gramasHomeopatiaSaco = cabecaSaco * gramaHomeopatiaCabeca;
+            
+            if (qntBatida === 0) throw new Error('Quantidade de batidas não pode ser zero');
+            const kiloHomeopatiaBatida = ((gramasHomeopatiaSaco / 1000) * qntSaco) / qntBatida;
+            
+            if (gramasHomeopatiaCaixa === 0) throw new Error('Gramas por caixa não pode ser zero');
+            const qntCaixa = ((gramasHomeopatiaSaco / 1000) * qntSaco) / (gramasHomeopatiaCaixa / 1000);
+
+            return {
+                pesoTotal: pesoTotal.toFixed(2),
+                qntBatida: qntBatida,
+                consumoCabecaKilo: consumoCabecaKilo.toFixed(3),
+                cabecaSaco: cabecaSaco.toFixed(2),
+                gramasHomeopatiaSaco: gramasHomeopatiaSaco.toFixed(2),
+                kiloHomeopatiaBatida: kiloHomeopatiaBatida.toFixed(3),
+                qntCaixa: qntCaixa.toFixed(2)
+            };
+        }
+
+        function displayResults(results) {
+            const resultContainer = document.getElementById('resultItems');
+            resultContainer.innerHTML = '';
+            
+            const template = [
+                {label: 'Peso Total (kg)', value: results.pesoTotal},
+                {label: 'Quantidade de Batidas', value: results.qntBatida},
+                {label: 'Consumo por Cabeça (kg)', value: results.consumoCabecaKilo},
+                {label: 'Cabeças por Saco', value: results.cabecaSaco},
+                {label: 'Gramas de Homeopatia por Saco (g)', value: results.gramasHomeopatiaSaco},
+                {label: 'Quilos de Homeopatia por Batida (kg)', value: results.kiloHomeopatiaBatida},
+                {label: 'Quantidade de Caixas Necessárias', value: results.qntCaixa}
+            ];
+
+            template.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'result-item';
+                div.innerHTML = `<strong>${item.label}:</strong> ${item.value}`;
+                resultContainer.appendChild(div);
+            });
+        }
+    </script>
+</body>
+</html>
